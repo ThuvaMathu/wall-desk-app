@@ -7,6 +7,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import HomeScreen from "./screens/home";
 import MenuScreen from "./screens/menu";
 import SearchScreen from "./screens/search";
+import Demo from "./screens/sub-screens/demo";
+import DownloadOption from "./screens/sub-screens/download-option";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -14,13 +16,32 @@ function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home Screen" component={HomeScreen} />
-      {/* <HomeStack.Screen name="Details" component={DetailsScreen} /> */}
+      <MenuStack.Group screenOptions={{ presentation: "modal" }}>
+        <MenuStack.Screen
+          name="Demos"
+          component={Demo}
+          options={{
+            headerShown: true,
+
+            headerStyle: {
+              backgroundColor: "#003554",
+            },
+            headerTintColor: "white",
+            headerBackTitle: "back",
+            headerBackTitleStyle: { fontSize: 18 },
+            headerTitleStyle: {
+              color: "#fff",
+              fontSize: 16,
+              fontWeight: "500",
+            },
+          }}
+        />
+      </MenuStack.Group>
     </HomeStack.Navigator>
   );
 }
 
 const MenuStack = createNativeStackNavigator();
-
 function MenuStackScreen() {
   return (
     <MenuStack.Navigator>
@@ -29,12 +50,13 @@ function MenuStackScreen() {
         options={{}}
         component={MenuScreen}
       />
+
       {/* <SettingsStack.Screen name="Details" component={DetailsScreen} /> */}
     </MenuStack.Navigator>
   );
 }
-const SearchStack = createNativeStackNavigator();
 
+const SearchStack = createNativeStackNavigator();
 function SearchStackScreen() {
   return (
     <SearchStack.Navigator>
@@ -45,13 +67,50 @@ function SearchStackScreen() {
           headerShown: false,
         }}
       />
+      <SearchStack.Screen
+        name="Downloads2"
+        component={DownloadOption}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#003554",
+          },
+          headerTintColor: "white",
+          headerBackTitle: "back",
+          headerBackTitleStyle: { fontSize: 18 },
+          headerTitleStyle: {
+            color: "#fff",
+            fontSize: 16,
+            fontWeight: "500",
+          },
+        }}
+      />
+      <SearchStack.Group screenOptions={{ presentation: "modal" }}>
+        <SearchStack.Screen
+          name="Downloads"
+          component={DownloadOption}
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: "#003554",
+            },
+            headerTintColor: "white",
+            headerBackTitle: "back",
+            headerBackTitleStyle: { fontSize: 18 },
+            headerTitleStyle: {
+              color: "#fff",
+              fontSize: 16,
+              fontWeight: "500",
+            },
+          }}
+        />
+      </SearchStack.Group>
       {/* <SettingsStack.Screen name="Details" component={DetailsScreen} /> */}
     </SearchStack.Navigator>
   );
 }
 
 const Tab = createBottomTabNavigator();
-
 export default function App({ route }: any) {
   return (
     <>
