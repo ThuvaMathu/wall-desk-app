@@ -7,6 +7,8 @@ type HomeScreenProps = {
 };
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  let demoData = "hello world";
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Home screen</Text>

@@ -85,9 +85,7 @@ const ImgComponent: React.FC<ImgComponentProps> = ({ navigation }) => {
         {demoData.results.map((item: any, i: number) => (
           <TouchableOpacity
             key={i}
-            onPress={() =>
-              navigation.navigate("Downloads2", { imgData: item?.urls })
-            }
+            onPress={() => navigation.navigate("Downloads2", { imgData: item })}
           >
             <Image
               style={{
