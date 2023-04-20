@@ -1,10 +1,24 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useState } from "react";
+import { Button, View } from "react-native";
 import Svg, { Defs, LinearGradient, Stop, Rect } from "react-native-svg";
 
 const GradientRectangle = () => {
   const width = 200; // Change this value based on your device's screen size
   const height = 200; // Change this value based on your device's screen size
+  const [randDesign, setrandDesign] = useState([{}]);
+  const generateRandom = () => {
+    const randomObjects = Array.from(
+      { length: Math.floor(Math.random() * 10) },
+      () => ({
+        x: Math.floor(Math.random() * 150),
+        y: Math.floor(Math.random() * 150),
+        //w: Math.floor(Math.random() * 200),
+        s: Math.floor(Math.random() * 50),
+      })
+    );
+    setrandDesign(randomObjects);
+    //console.log(randomObjects);
+  };
 
   return (
     <View>
@@ -36,47 +50,21 @@ const GradientRectangle = () => {
           rx="15"
           ry="15"
         />
-        <Rect
-          x="150"
-          y="110"
-          width="50"
-          height="50"
-          fill="#fff"
-          opacity="0.4"
-          rx="25"
-          ry="25"
-        />
-        <Rect
-          x="40"
-          y="100"
-          width="25"
-          height="25"
-          fill="#fff"
-          opacity="0.6"
-          rx="12.5"
-          ry="12.5"
-        />
-        <Rect
-          x="100"
-          y="150"
-          width="45"
-          height="45"
-          fill="#fff"
-          opacity="0.2"
-          rx="22.5"
-          ry="22.5"
-        />
-        <Rect
-          x="30"
-          y="150"
-          width="35"
-          height="35"
-          fill="#fff"
-          opacity="0.2"
-          rx="50"
-          ry="50"
-        />
+        {randDesign.map((data: any, i: number) => (
+          <Rect
+            key={i}
+            x={data?.x}
+            y={data.y}
+            width={data?.s}
+            height={data?.s}
+            fill="#fff"
+            opacity="0.3"
+            rx="20"
+            ry="20"
+          />
+        ))}
       </Svg>
+      <Button onPress={() => generateRandom()} title="Generate" />
     </View>
   );
 };
