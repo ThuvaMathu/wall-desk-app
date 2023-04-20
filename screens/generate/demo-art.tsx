@@ -9,12 +9,12 @@ const GradientRectangle = () => {
   const [randHex, setRandHex] = useState<any>({});
   const generateRandom = () => {
     const randomObjects = Array.from(
-      { length: Math.floor(Math.random() * 15) },
+      { length: Math.floor(Math.random() * 10) },
       () => ({
         x: Math.floor(Math.random() * 150),
         y: Math.floor(Math.random() * 150),
         //w: Math.floor(Math.random() * 200),
-        s: Math.floor(Math.random() * 40),
+        s: Math.floor(Math.random() * 100),
       })
     );
     setrandDesign(randomObjects);
@@ -44,7 +44,26 @@ const GradientRectangle = () => {
           </LinearGradient>
         </Defs>
         <Rect x="0" y="0" width={width} height={height} fill="url(#grad)" />
-
+        <Rect
+          x="60"
+          y="20"
+          width="40"
+          height="40"
+          fill="#fff"
+          opacity="0.3"
+          rx="20"
+          ry="20"
+        />
+        <Rect
+          x="120"
+          y="50"
+          width="30"
+          height="30"
+          fill="#fff"
+          opacity="0.5"
+          rx="15"
+          ry="15"
+        />
         {randDesign.map((data: any, i: number) => (
           <Rect
             key={i}
