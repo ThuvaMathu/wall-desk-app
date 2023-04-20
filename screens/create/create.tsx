@@ -1,20 +1,22 @@
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
+import GradientRectangle from "./demo-art";
 
 type HomeScreenProps = {
   navigation: NavigationProp<any>;
 };
 
-const ImgOption: React.FC<HomeScreenProps> = ({ navigation }) => {
+const CreateScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>demo</Text>
+      <GradientRectangle />
     </View>
   );
 };
 
-export default ImgOption;
+export default CreateScreen;
 const styles = StyleSheet.create({
   text: {
     fontSize: 20,

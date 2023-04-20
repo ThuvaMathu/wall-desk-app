@@ -12,6 +12,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ImageGrid from "../services/demo-img";
 import ImgComponent from "../services/img-component";
+import { theme } from "../services/global-theme";
 
 type AboutScreenProps = {
   navigation: NavigationProp<any>;
@@ -22,16 +23,14 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
   const [number, onChangeNumber] = React.useState("");
   return (
     <SafeAreaView
-      style={{ flex: 1, position: "relative", backgroundColor: "#0288d6" }}
+      style={{ flex: 1, position: "relative", backgroundColor: "#14213D" }}
     >
       <View>
         <View
           style={{
-            // position: "absolute",
-            // bottom: 10,
             width: "100%",
             zIndex: 2,
-            //backgroundColor: "white",
+            backgroundColor: "",
           }}
         >
           <View
@@ -40,7 +39,6 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              //margin: 12,
               marginTop: 5,
               marginHorizontal: 12,
               marginBottom: 12,
@@ -48,10 +46,11 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
               height: 40,
               borderRadius: 10,
               borderWidth: 1,
+              backgroundColor: theme.third,
             }}
           >
             <TextInput
-              style={styles.input}
+              style={{ flex: 2 }}
               onChangeText={onChangeText}
               value={text}
               placeholder="Search"
@@ -68,13 +67,19 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
                   color: "red",
                 }}
               >
-                <Ionicons name={"search"} size={24} color={"tomato"} />
+                <Ionicons name={"search"} size={24} color={theme.secondary} />
               </Text>
             </View>
           </View>
         </View>
         <ScrollView>
-          <View style={{ marginBottom: 50 }}>
+          <View
+            style={{
+              marginBottom: 50,
+              backgroundColor: "#E5E5E5",
+              paddingTop: 10,
+            }}
+          >
             <ImgComponent navigation={navigation} />
 
             {/* <ImageGrid /> */}
@@ -102,8 +107,5 @@ export default SearchScreen;
 const styles = StyleSheet.create({
   btn: {
     backgroundColor: "red",
-  },
-  input: {
-    flex: 2,
   },
 });
