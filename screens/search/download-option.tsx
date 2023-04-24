@@ -1,7 +1,6 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-//import RNFetchBlob from "rn-fetch-blob";
-// import RNFS from "react-native-fs";
+
 import {
   StyleSheet,
   Text,
@@ -57,9 +56,7 @@ const DownloadOption: React.FC<DownloadOptionProps> = ({
         console.log("Permission to access media library denied");
         return;
       }
-
       const { uri }: any = await downloadResumable.downloadAsync();
-
       const asset = await MediaLibrary.createAssetAsync(uri);
       await MediaLibrary.createAlbumAsync("Expo", asset, false);
       console.log("Image saved to gallery");

@@ -2,14 +2,12 @@ import * as React from "react";
 import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { theme } from "./services/global-theme";
-import {
-  CreateStackScreen,
-  HomeStackScreen,
-  MenuStackScreen,
-  GenerateStackScreen,
-  SearchStackScreen,
-} from "./all-screen-config";
+import { theme } from "../services/global-theme";
+import { CreateStackScreen } from "./create-stack";
+import { GenerateStackScreen } from "./gen-stack";
+import { HomeStackScreen } from "./home-stack";
+import { MenuStackScreen } from "./menu-stack";
+import { SearchStackScreen } from "./search-stack";
 
 const Tab = createBottomTabNavigator();
 

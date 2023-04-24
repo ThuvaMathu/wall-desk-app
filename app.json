@@ -13,7 +13,6 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "permissions": ["CAMERA_ROLL"],
       "supportsTablet": true
     },
     "android": {
@@ -24,7 +23,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "permissions": ["CAMERA_ROLL"]
+    }
   }
 }

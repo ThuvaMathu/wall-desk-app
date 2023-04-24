@@ -1,7 +1,6 @@
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import GradientRectangle from "./demo-art";
 
 type HomeScreenProps = {
   navigation: NavigationProp<any>;
@@ -9,9 +8,8 @@ type HomeScreenProps = {
 
 const CreateScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>demo</Text>
-      <GradientRectangle />
+    <View style={{ flex: 1, alignItems: "center" }}>
+      <Text style={{}}>Hello world</Text>
     </View>
   );
 };

@@ -8,11 +8,11 @@ import {
   SafeAreaView,
   TextInput,
   ScrollView,
+  Platform,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import ImageGrid from "../services/demo-img";
-import ImgComponent from "../services/img-component";
-import { theme } from "../services/global-theme";
+import ImgComponent from "../../services/img-component";
+import { theme } from "../../services/global-theme";
 
 type AboutScreenProps = {
   navigation: NavigationProp<any>;
@@ -23,7 +23,12 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
   const [number, onChangeNumber] = React.useState("");
   return (
     <SafeAreaView
-      style={{ flex: 1, position: "relative", backgroundColor: "#14213D" }}
+      style={{
+        flex: 1,
+        position: "relative",
+        backgroundColor: "#14213D",
+        paddingTop: Platform.OS === "android" ? 30 : 0,
+      }}
     >
       <View>
         <View
