@@ -27,17 +27,10 @@ const ImgComponent: React.FC<ImgComponentProps> = ({ navigation }) => {
   const [photo, setPhoto] = useState<any>(null);
 
   useEffect(() => {
-    //fetchImage;
-    setPhoto(demoData.results[2].urls.regular);
+    fetchImage();
+    //setPhoto(demoData.results[2].urls.regular);
   }, []);
 
-  const renderItem = ({ item }: any) => {
-    return (
-      <View style={styles.item}>
-        <Image style={styles.image} source={{ uri: item?.urls.regular }} />
-      </View>
-    );
-  };
   const fetchImage = () => {
     fetch(endpoint)
       .then((response) => {
@@ -59,16 +52,7 @@ const ImgComponent: React.FC<ImgComponentProps> = ({ navigation }) => {
   };
 
   return (
-    // <View style={{ marginBottom: 150 }}>
-    //   <FlatList
-    //     data={demoData.results}
-    //     renderItem={renderItem}
-    //     keyExtractor={(item) => item.id}
-    //     numColumns={numColumns}
-    //     contentContainerStyle={styles.container}
-    //   />
-    // </View>
-    <View style={styles.container}>
+    <View style={{ flexGrow: 1 }}>
       <View
         style={{
           display: "flex",
@@ -78,10 +62,6 @@ const ImgComponent: React.FC<ImgComponentProps> = ({ navigation }) => {
           justifyContent: "center",
         }}
       >
-        {/* <Image
-            style={{ height: 200, width: screenWidth / 2.1 }}
-            source={{ uri: demoData.results[1].urls.regular }}
-          /> */}
         {demoData.results.map((item: any, i: number) => (
           <TouchableOpacity
             key={i}

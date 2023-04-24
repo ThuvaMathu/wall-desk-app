@@ -1,3 +1,4 @@
+import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 
 const screenWidth = Dimensions.get("window").width;
@@ -10,3 +11,9 @@ export const theme = {
   third: "#E5E5E5",
   fourth: "#BAC9E9",
 };
+
+export const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+  },
+});
