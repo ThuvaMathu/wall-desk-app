@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { demoData } from "../data-provider/demo-data";
+import { demoData } from "../../data-provider/demo-data";
 import { NavigationProp } from "@react-navigation/native";
 
 const numColumns = 2;

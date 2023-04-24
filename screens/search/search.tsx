@@ -11,7 +11,7 @@ import {
   Platform,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import ImgComponent from "../../services/img-component";
+import ImgComponent from "./img-component";
 import { theme } from "../../services/global-theme";
 
 type AboutScreenProps = {
