@@ -27,7 +27,7 @@ const ImgComponent: React.FC<ImgComponentProps> = ({ navigation }) => {
   const [photo, setPhoto] = useState<any>(null);
 
   useEffect(() => {
-    fetchImage();
+    //fetchImage();
     //setPhoto(demoData.results[2].urls.regular);
   }, []);
 
