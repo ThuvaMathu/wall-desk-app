@@ -1,14 +1,6 @@
 import * as React from "react";
-import { Button, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import HomeScreen from "./screens/home/home";
-import MenuScreen from "./screens/menu/menu";
-import SearchScreen from "./screens/search/search";
-import Demo from "./screens/search/demo";
-import DownloadOption from "./screens/search/download-option";
 import { MainTab } from "./scr-config/tab-config";
 import * as Font from "expo-font";
 
@@ -24,7 +16,7 @@ function HomeStackScreen() {
           headerShown: false,
         }}
       />
-      <HomeStack.Screen name="second" component={HomeScreen} />
+      {/* <HomeStack.Screen name="second" component={DemoT} /> */}
     </HomeStack.Navigator>
   );
 }

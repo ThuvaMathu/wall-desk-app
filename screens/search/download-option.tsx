@@ -19,7 +19,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { Alert, Platform } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
-import Loader from "../../services/svgs/loader";
+import Loader from "../../components/svgs/loader";
 import { theme } from "../../services/global-theme";
 
 const screenWidth = Dimensions.get("window").width;

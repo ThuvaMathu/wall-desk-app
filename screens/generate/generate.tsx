@@ -39,11 +39,7 @@ const GenerateScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               overflow: "hidden",
             }}
           >
-            {/* <Image
-              source={data.img}
-              style={{ width: "100%", height: "100%", borderRadius: 10 }}
-            /> */}
-            <Pressable onPress={() => navigation.navigate("genbubble")}>
+            <Pressable onPress={() => navigation.navigate(data.name)}>
               <ImageBackground
                 style={{
                   width: "100%",
@@ -66,7 +62,8 @@ const GenerateScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             </Pressable>
           </View>
         ))}
-        <View
+
+        {/* <View
           style={{
             width: screenSize.width / 2.1,
             height: 120,
@@ -75,45 +72,7 @@ const GenerateScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             overflow: "hidden",
           }}
         >
-          {/* <Image
-              source={data.img}
-              style={{ width: "100%", height: "100%", borderRadius: 10 }}
-            /> */}
-          <Pressable onPress={() => navigation.navigate("gensplit")}>
-            <ImageBackground
-              style={{
-                width: "100%",
-                height: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              source={demo1}
-            >
-              <Text
-                style={{
-                  fontSize: 24,
-                  fontWeight: "500",
-                  fontFamily: "Calgary-DEMO",
-                }}
-              >
-                demo split
-              </Text>
-            </ImageBackground>
-          </Pressable>
-        </View>
-        <View
-          style={{
-            width: screenSize.width / 2.1,
-            height: 120,
-            backgroundColor: "pink",
-            borderRadius: 20,
-            overflow: "hidden",
-          }}
-        >
-          {/* <Image
-              source={data.img}
-              style={{ width: "100%", height: "100%", borderRadius: 10 }}
-            /> */}
+     
           <Pressable onPress={() => navigation.navigate("genwave")}>
             <ImageBackground
               style={{
@@ -135,7 +94,7 @@ const GenerateScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               </Text>
             </ImageBackground>
           </Pressable>
-        </View>
+        </View> */}
       </View>
     </View>
   );
