@@ -1,5 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,14 +13,100 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ImgComponent from "./img-component";
 import { theme } from "../../services/global-theme";
+import { demoData } from "../../data-provider/demo-data";
 
 type AboutScreenProps = {
   navigation: NavigationProp<any>;
 };
 
 const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
-  const [text, onChangeText] = React.useState("");
-  const [number, onChangeNumber] = React.useState("");
+  const [text, setText] = useState("");
+  const [photo, setPhoto] = useState<any>([]);
+  const [pageValue, setPageValue] = useState(1);
+  const [tempReq, setTempReq] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const accessKey = "sTclklm7E58Hnk651YW72FJWBycrxcHsSoHEKKXJXd0";
+  let query = "nature";
+  const perPage = 10;
+ 
+  
+
+ 
+  useEffect(() => {
+    fetchImage();
+    //setPhoto(demoData.results);
+  }, [pageValue]);
+  const handleSearch = (searchData : any) => {
+    
+    query = searchData
+   console.log(query,"blue")
+   const endpoint1 = `https://api.unsplash.com/search/photos?query=${query}&per_page=${perPage}&page=${pageValue}&client_id=${accessKey}`;
+if(searchData){
+  fetch(endpoint1)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+  })
+  .then((data) => {
+    // Use the fetched data
+    console.log("success");
+    // console.log(data.results);
+
+    setPhoto(data.results);
+  })
+  .catch((error) => {
+    console.error("There was a problem fetching the data:", error);
+  });
+}else {
+  setPhoto(demoData.results);
+}
+    
+    
+  };
+  
+ 
+  const fetchImage = () => {
+    setIsLoading(true);
+    var tempPage = pageValue;
+    console.log(tempPage,"orange",pageValue)
+    const endpoint = `https://api.unsplash.com/search/photos?query=${query}&per_page=${perPage}&page=${tempPage}&client_id=${accessKey}`;
+    console.log(tempPage,"orange88",pageValue)
+    fetch(endpoint)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.results > 0) {
+          setPageValue(tempPage + 1);
+          photo.push(data.results);
+          if (tempReq !== query) {
+            setPhoto(data.results);
+          } else {
+            photo.push(data.results);
+          }
+        } else {
+          console.log(data.results, "no data");
+        }
+        // // Use the fetched data
+        // console.log("success");
+        // // console.log(data.results);
+
+        // setPhoto(data.results);
+      })
+      // .then(() => {
+      //   setIsLoading(false);
+      // })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error("There was a problem fetching the data:", error);
+      });
+  };
+ console.log(isLoading,"pink",pageValue)
   return (
     <SafeAreaView
       style={{
@@ -56,8 +142,8 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
           >
             <TextInput
               style={{ flex: 2 }}
-              onChangeText={onChangeText}
-              value={text}
+              onChangeText={searchText =>handleSearch(searchText)}
+              //value={text}
               placeholder="Search"
             />
             <View
@@ -85,7 +171,7 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
               paddingTop: 10,
             }}
           >
-            <ImgComponent navigation={navigation} />
+            <ImgComponent navigation={navigation} photos={photo}/>
 
             {/* <ImageGrid /> */}
             <View
@@ -98,7 +184,7 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
                 width: "100%",
               }}
             >
-              <Button color={"red"} onPress={() => {}} title="Load More" />
+              <Button color={"red"} onPress={()=>fetchImage()} title="Load More" />
             </View>
           </View>
         </ScrollView>

@@ -16,41 +16,11 @@ const screenWidth = Dimensions.get("window").width;
 
 type ImgComponentProps = {
   navigation: NavigationProp<any>;
+  photos: any
 };
 
-const ImgComponent: React.FC<ImgComponentProps> = ({ navigation }) => {
-  const accessKey = "sTclklm7E58Hnk651YW72FJWBycrxcHsSoHEKKXJXd0";
-  const query = "nature";
-  const perPage = 10;
-  const endpoint = `https://api.unsplash.com/search/photos?query=${query}&per_page=${perPage}&client_id=${accessKey}`;
-
-  const [photo, setPhoto] = useState<any>(null);
-
-  useEffect(() => {
-    //fetchImage();
-    //setPhoto(demoData.results[2].urls.regular);
-  }, []);
-
-  const fetchImage = () => {
-    fetch(endpoint)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Use the fetched data
-        console.log("success");
-        console.log(data.results[0].urls.regular);
-
-        setPhoto(data.results[0].urls.regular);
-      })
-      .catch((error) => {
-        console.error("There was a problem fetching the data:", error);
-      });
-  };
-
+const ImgComponent: React.FC<ImgComponentProps> = ({ navigation ,photos}) => {
+ 
   return (
     <View style={{ flexGrow: 1 }}>
       <View
@@ -62,7 +32,7 @@ const ImgComponent: React.FC<ImgComponentProps> = ({ navigation }) => {
           justifyContent: "center",
         }}
       >
-        {demoData.results.map((item: any, i: number) => (
+        {photos.map((item: any, i: number) => (
           <TouchableOpacity
             key={i}
             onPress={() => navigation.navigate("Download", { imgData: item })}
