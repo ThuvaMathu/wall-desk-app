@@ -28,51 +28,44 @@ const SearchScreen: React.FC<AboutScreenProps> = ({ navigation }) => {
   const accessKey = "sTclklm7E58Hnk651YW72FJWBycrxcHsSoHEKKXJXd0";
   let query = "nature";
   const perPage = 10;
- 
-  
 
- 
   useEffect(() => {
-    fetchImage();
+    //fetchImage();
     //setPhoto(demoData.results);
   }, [pageValue]);
-  const handleSearch = (searchData : any) => {
-    
-    query = searchData
-   console.log(query,"blue")
-   const endpoint1 = `https://api.unsplash.com/search/photos?query=${query}&per_page=${perPage}&page=${pageValue}&client_id=${accessKey}`;
-if(searchData){
-  fetch(endpoint1)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    // Use the fetched data
-    console.log("success");
-    // console.log(data.results);
+  const handleSearch = (searchData: any) => {
+    query = searchData;
+    // console.log(query, "blue");
+    const endpoint1 = `https://api.unsplash.com/search/photos?query=${query}&per_page=${perPage}&page=${pageValue}&client_id=${accessKey}`;
+    if (searchData) {
+      fetch(endpoint1)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Use the fetched data
+          console.log("success");
+          // console.log(data.results);
 
-    setPhoto(data.results);
-  })
-  .catch((error) => {
-    console.error("There was a problem fetching the data:", error);
-  });
-}else {
-  setPhoto(demoData.results);
-}
-    
-    
+          setPhoto(data.results);
+        })
+        .catch((error) => {
+          console.error("There was a problem fetching the data:", error);
+        });
+    } else {
+      setPhoto(demoData.results);
+    }
   };
-  
- 
+
   const fetchImage = () => {
     setIsLoading(true);
     var tempPage = pageValue;
-    console.log(tempPage,"orange",pageValue)
+    console.log(tempPage, "orange", pageValue);
     const endpoint = `https://api.unsplash.com/search/photos?query=${query}&per_page=${perPage}&page=${tempPage}&client_id=${accessKey}`;
-    console.log(tempPage,"orange88",pageValue)
+    console.log(tempPage, "orange88", pageValue);
     fetch(endpoint)
       .then((response) => {
         if (!response.ok) {
@@ -106,7 +99,7 @@ if(searchData){
         console.error("There was a problem fetching the data:", error);
       });
   };
- console.log(isLoading,"pink",pageValue)
+  console.log(isLoading, "pink", pageValue);
   return (
     <SafeAreaView
       style={{
@@ -142,7 +135,7 @@ if(searchData){
           >
             <TextInput
               style={{ flex: 2 }}
-              onChangeText={searchText =>handleSearch(searchText)}
+              //onChangeText={searchText =>handleSearch(searchText)}
               //value={text}
               placeholder="Search"
             />
@@ -171,7 +164,7 @@ if(searchData){
               paddingTop: 10,
             }}
           >
-            <ImgComponent navigation={navigation} photos={photo}/>
+            <ImgComponent navigation={navigation} photos={photo} />
 
             {/* <ImageGrid /> */}
             <View
@@ -184,7 +177,11 @@ if(searchData){
                 width: "100%",
               }}
             >
-              <Button color={"red"} onPress={()=>fetchImage()} title="Load More" />
+              <Button
+                color={"red"}
+                onPress={() => fetchImage()}
+                title="Load More"
+              />
             </View>
           </View>
         </ScrollView>

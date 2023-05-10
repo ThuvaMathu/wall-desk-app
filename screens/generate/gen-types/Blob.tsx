@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -13,16 +13,28 @@ import Slider from "@react-native-community/slider";
 import Svg, { Path } from "react-native-svg";
 import BottomSheet from "../../../components/bottom-up-screen/bottom-sheet";
 import RangeSlider from "../../../components/gen-controllers/rangeSlider";
-import { theme } from "../../../services/global-theme";
+import { screenSize, theme } from "../../../services/global-theme";
 import ColorPickerModel from "../../../components/gen-controllers/color-picker";
-
+import CommonGenButtom from "../../../components/gen-controllers/common-gen-buttom";
+import CommonColorSelector from "../../../components/gen-controllers/common-gradient-color-stack";
+import GenDownloader from "../../../components/gen-controllers/gen-downloader";
+interface randInterface {
+  backGroundColor: string;
+  foreGroungColor: string;
+}
 export default function GenBlob({ navigation }: any) {
   const [pathData, setPathData] = useState("");
   const [values, setValues] = useState(0);
   const [slopes, setslopes] = useState(15);
-  const [frequecy, setFrequecy] = useState(0);
-  const [radius, setRadius] = useState(50);
-  console.log(values);
+  const [radius, setRadius] = useState(150);
+  const [randHex, setRandHex] = useState<randInterface>({
+    backGroundColor: "#FFDAB9",
+    foreGroungColor: "#FF7F50",
+  });
+  useEffect(() => {
+    generateBlob();
+  }, []);
+
   function generateBlob() {
     const numPoints = Math.floor(Math.random() * slopes) + 5; // between 5 and 15 points
     //const radius = 150;
@@ -60,59 +72,85 @@ export default function GenBlob({ navigation }: any) {
 
     setPathData(d);
   }
-  const genButton = (
+
+  const viewShotRef = useRef<any>();
+
+  return (
     <View
       style={{
-        display: "flex",
-        paddingHorizontal: 20,
+        flex: 1,
+        height: "100%",
+        width: "100%",
         justifyContent: "center",
-        alignItems: "flex-end",
+        alignItems: "center",
       }}
     >
-      <TouchableOpacity
+      <View
+        ref={viewShotRef}
         style={{
-          backgroundColor: theme.secondary,
-          padding: 15,
-          borderRadius: 50,
-          marginBottom: 10,
+          width: screenSize.width,
+          height: screenSize.height,
+          overflow: "hidden",
+          backgroundColor: randHex.backGroundColor,
         }}
-        onPress={generateBlob}
       >
-        <Text style={{}}>Generate</Text>
-      </TouchableOpacity>
-    </View>
-  );
-  return (
-    <View style={styles.container}>
-      <Svg style={styles.svg} viewBox="0 0 500 500">
-        <Path d={pathData} fill="#3498DB" />
-      </Svg>
+        <Svg
+          style={{
+            width: "100%",
+            height: "100%",
+            // backgroundColor: randHex.backGroundColor,
+          }}
+          viewBox="0 0 500 500"
+        >
+          <Path d={pathData} fill={randHex.foreGroungColor} />
+        </Svg>
+      </View>
+      <View style={{ position: "absolute", top: 5, right: 5, width: 220 }}>
+        <GenDownloader viewShotRef={viewShotRef} />
+      </View>
       <BottomSheet
-        drawHeight={450}
-        minHeight={80}
+        drawHeight={260}
+        minHeight={75}
         backgroundColor={"white"}
-        overHeadChild={genButton}
+        overHeadChild={
+          <CommonGenButtom onChange={() => generateBlob()} tittle="Randomize" />
+        }
       >
         <RangeSlider
-          min={50}
-          max={200}
+          min={1}
+          max={10}
           header="Radius"
-          onChange={(value) => setRadius(value)}
+          onChange={(value) => setRadius(value * 50)}
         />
         <RangeSlider
-          min={5}
-          max={30}
+          min={1}
+          max={50}
           header="Slopes"
-          onChange={(value) => setslopes(value)}
-        />
-        <RangeSlider
-          min={50}
-          max={200}
-          header="Frequency"
-          onChange={(value) => setRadius(value)}
+          onChange={(value) => setslopes(value * 2)}
         />
 
-        <ColorPickerModel />
+        {/* <ColorPickerModel /> */}
+        <CommonColorSelector
+          fixed={true}
+          firstColorTittle="background"
+          SecondColorTittle="color"
+          RandomColorTittle="Random"
+          onChangeRandomColor={(c1: string, c2: string) =>
+            setRandHex({ backGroundColor: c1, foreGroungColor: c2 })
+          }
+          onChangeFirstColor={(e) =>
+            setRandHex((data: randInterface) => ({
+              backGroundColor: e,
+              foreGroungColor: data.foreGroungColor,
+            }))
+          }
+          onChangeSecondColor={(e) =>
+            setRandHex((data: randInterface) => ({
+              backGroundColor: data.backGroundColor,
+              foreGroungColor: e,
+            }))
+          }
+        />
         {/* <Modal
           animationType="slide"
           transparent={true}
@@ -147,15 +185,4 @@ export default function GenBlob({ navigation }: any) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "lightgray",
-  },
-  svg: {
-    width: "100%",
-    aspectRatio: 1,
-  },
-});
+const styles = StyleSheet.create({});

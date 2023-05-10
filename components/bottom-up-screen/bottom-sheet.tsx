@@ -8,7 +8,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { Button } from "react-native";
-import { screenSize } from "../../services/global-theme";
+import { screenSize, theme } from "../../services/global-theme";
 import Svg, { SvgProps, Rect } from "react-native-svg";
 
 type BottomSheetProps = {
@@ -62,7 +62,14 @@ const BottomSheet = (props: BottomSheetProps) => {
   }));
 
   return (
-    <View style={{ flex: 1, width: screenSize.width }}>
+    <View
+      style={{
+        flex: 1,
+        width: screenSize.width,
+        position: "absolute",
+        bottom: 0,
+      }}
+    >
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View
           style={[
@@ -86,30 +93,43 @@ const BottomSheet = (props: BottomSheetProps) => {
               height: "100%",
               borderTopLeftRadius: 15,
               borderTopRightRadius: 15,
-              paddingHorizontal: 10,
               paddingBottom: 10,
+              overflow: "hidden",
+              position: "relative",
             }}
           >
             <View
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: handleDirections ? handleDirections : "center",
-                height: 25,
-                paddingTop: 0,
-                paddingHorizontal: 30,
+                // display: "flex",
+                marginBottom: 30,
+                height: 50,
+                borderTopLeftRadius: 15,
+                borderTopRightRadius: 15,
+                backgroundColor: theme.third,
+                overflow: "hidden",
               }}
             >
               <View
                 style={{
-                  width: 50,
-                  height: 6,
-                  backgroundColor: handlerColor ? handlerColor : "grey",
-                  borderRadius: 10,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: handleDirections ? handleDirections : "center",
+                  height: 25,
+                  paddingTop: 10,
+                  paddingHorizontal: 30,
                 }}
-              />
+              >
+                <View
+                  style={{
+                    width: 50,
+                    height: 6,
+                    backgroundColor: handlerColor ? handlerColor : "grey",
+                    borderRadius: 10,
+                  }}
+                />
+              </View>
             </View>
-            {children}
+            <View style={{ paddingHorizontal: 10 }}>{children}</View>
           </View>
         </Animated.View>
       </PanGestureHandler>

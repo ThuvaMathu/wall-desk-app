@@ -2,6 +2,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { theme } from "../services/global-theme";
 import { CreateStackScreen } from "./create-stack";
 import { GenerateStackScreen } from "./gen-stack";
@@ -42,6 +43,16 @@ export function MainTab({ route }: any) {
               return (
                 <>
                   {route.name === "Search" ? (
+                    <MaterialIcons
+                      name={"image-search"}
+                      size={30}
+                      color={color}
+                    />
+                  ) : (
+                    <Ionicons name={iconName} size={30} color={color} />
+                  )}
+
+                  {/* {route.name === "Search" ? (
                     <View
                       style={{
                         display: "flex",
@@ -58,7 +69,7 @@ export function MainTab({ route }: any) {
                     </View>
                   ) : (
                     <Ionicons name={iconName} size={30} color={color} />
-                  )}
+                  )} */}
                 </>
               );
             },

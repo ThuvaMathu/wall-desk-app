@@ -10,6 +10,9 @@ export const theme = {
   secondary: "#FCA311",
   third: "#E5E5E5",
   fourth: "#BAC9E9",
+  font: {
+    primary: "Calgary-DEMO",
+  },
 };
 
 export const styles = StyleSheet.create({

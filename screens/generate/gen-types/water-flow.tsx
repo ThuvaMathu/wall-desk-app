@@ -9,7 +9,7 @@ import GenDownloader from "../../../components/gen-controllers/gen-downloader";
 import ColorPickerModel from "../../../components/gen-controllers/color-picker";
 import RandomColorPicker from "../../../components/gen-controllers/random-color-picker";
 
-const WaveSplitter = () => {
+const WaterFlow = () => {
   const [amplitude, setAmplitude] = useState(
     Math.floor(Math.random() * 20) + 20
   );
@@ -220,4 +220,4 @@ const WaveSplitter = () => {
   );
 };
 
-export default WaveSplitter;
+export default WaterFlow;

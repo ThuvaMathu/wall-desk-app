@@ -8,6 +8,7 @@ type rangeSliderProps = {
   min?: number;
   max?: number;
   header?: string;
+  value?: number;
   onChange?: (values: number) => void;
 };
 
@@ -43,11 +44,15 @@ export default function RangeSlider(props: rangeSliderProps) {
           style={{ width: "80%" }}
           minimumValue={min ? min : 0}
           maximumValue={max ? max : 10}
+          value={value ? value : 0}
           onValueChange={onRangeChange}
           //value={maxValue}
           step={1}
         />
-        <Text style={{ marginLeft: 10, textAlign: "center" }}>{value}</Text>
+        <Text style={{ marginLeft: 10, textAlign: "center" }}>
+          {value}
+          {header === "Angle" && "°"}
+        </Text>
       </View>
     </View>
   );

@@ -1,90 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Dimensions,
-  PermissionsAndroid,
-  Platform,
-  View,
-} from "react-native";
+import { Dimensions, View } from "react-native";
 import Svg, { Defs, LinearGradient, Stop, Rect } from "react-native-svg";
-import * as FileSystem from "expo-file-system";
-import * as MediaLibrary from "expo-media-library";
-import ViewShot, { captureRef } from "react-native-view-shot";
-import * as Permissions from "expo-permissions";
-import { getRandom } from "unsplash-js/dist/methods/photos";
+import BottomSheet from "../../../components/bottom-up-screen/bottom-sheet";
+import CommonGenButtom from "../../../components/gen-controllers/common-gen-buttom";
+import RangeSlider from "../../../components/gen-controllers/rangeSlider";
+import GenDownloader from "../../../components/gen-controllers/gen-downloader";
+import { getRandomHexColor } from "../../../components/gen-controllers/gen-random-collection";
+import CommonColorSelector from "../../../components/gen-controllers/common-gradient-color-stack";
 
 const GenBubble = ({ navigation }: any) => {
-  const screenWidth = Dimensions.get("window").width;
-
-  const width = Dimensions.get("window").width; // Change this value based on your device's screen size
-  const height = Dimensions.get("window").height;
   const [randDesign, setrandDesign] = useState([{}]);
   const [randHex, setRandHex] = useState<any>({
     first: "#FFDAB9",
     second: "#FF7F50",
   });
+  const [radius, setRadius] = useState(50);
+  const [count, setCount] = useState(10);
   useEffect(() => {
     generateRandom();
   }, []);
+
+  const width = Dimensions.get("window").width;
+  const height = Dimensions.get("window").height;
+
   const viewShotRef = useRef<any>();
+
   const generateRandom = () => {
-    const randomObjects = Array.from(
-      { length: Math.floor(Math.random() * 45) },
-      () => ({
-        x: Math.floor(Math.random() * width - 50),
-        y: Math.floor(Math.random() * height - 50),
-        //w: Math.floor(Math.random() * 200),
-        s: Math.floor(Math.random() * 80),
-        //o: Math.floor(Math.random() * (0.5 - 0.1) + 0.1),
-        o: Math.random() * (0.8 - 0.1) + 0.1,
-      })
-    );
+    const randomObjects = Array.from({ length: count }, () => ({
+      x: Math.floor(Math.random() * width - 50),
+      y: Math.floor(Math.random() * height - 50),
+      //w: Math.floor(Math.random() * 200),
+      s: Math.floor(Math.random() * radius),
+      //o: Math.floor(Math.random() * (0.5 - 0.1) + 0.1),
+      o: Math.random() * (0.8 - 0.1) + 0.1,
+    }));
     setrandDesign(randomObjects);
-    //console.log(randomObjects);
   };
-  function getRandomHexColor(): string {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
+
   const generateRandomHex = () => {
     setRandHex({ first: getRandomHexColor(), second: getRandomHexColor() });
   };
 
-  const requestPermission = async () => {
-    if (Platform.OS === "android") {
-      const result = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-      return result === PermissionsAndroid.RESULTS.GRANTED;
-    }
-    return true;
-  };
-  const downloadImage = async () => {
-    const hasPermission = await requestPermission();
-    if (!hasPermission) {
-      console.log("Permission denied");
-      return;
-    }
-    try {
-      const uri = await captureRef(viewShotRef, {
-        format: "png",
-        quality: 1,
-      });
-      const asset = await MediaLibrary.createAssetAsync(uri);
-      await MediaLibrary.createAlbumAsync("Pictures", asset, false);
-      console.log("Image saved to gallery");
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <View ref={viewShotRef}>
-        <Svg width={width} height={height - 320}>
+    <View style={{ flex: 1, alignItems: "center", position: "relative" }}>
+      <View ref={viewShotRef} style={{ width: width, height: height }}>
+        <Svg width={"100%"} height={"100%"}>
           <Defs>
             <LinearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
               <Stop offset="0%" stopColor={randHex?.first} />
@@ -110,9 +70,52 @@ const GenBubble = ({ navigation }: any) => {
           ))}
         </Svg>
       </View>
-      <Button onPress={() => generateRandom()} title="Generate" />
-      <Button onPress={() => generateRandomHex()} title="Color" />
-      <Button onPress={() => downloadImage()} title="Download" />
+      <View style={{ position: "absolute", top: 5, right: 5, width: 220 }}>
+        <GenDownloader viewShotRef={viewShotRef} />
+      </View>
+
+      <BottomSheet
+        drawHeight={310}
+        minHeight={75}
+        backgroundColor={"white"}
+        overHeadChild={
+          <CommonGenButtom
+            onChange={() => generateRandom()}
+            tittle="Randomize"
+          />
+        }
+      >
+        <RangeSlider
+          min={1}
+          max={15}
+          header=" Bubble Radius"
+          onChange={(value) => setRadius(value * 10)}
+        />
+        <RangeSlider
+          min={10}
+          max={100}
+          header="Count"
+          onChange={(value) => setCount(value)}
+        />
+        <CommonColorSelector
+          fixed={false}
+          firstColorTittle="Left"
+          SecondColorTittle="Right"
+          RandomColorTittle="Random"
+          onChangeRandomColor={(c1: string, c2: string) =>
+            setRandHex({ first: c1, second: c2 })
+          }
+          onChangeFirstColor={(e) =>
+            setRandHex((data: any) => ({ first: e, second: data.second }))
+          }
+          onChangeSecondColor={(e) =>
+            setRandHex((data: any) => ({ first: data.first, second: e }))
+          }
+        />
+        {/* <View style={{ margin: 10 }}>
+          <GenDownloader viewShotRef={viewShotRef} tittle="Save" />
+        </View> */}
+      </BottomSheet>
     </View>
   );
 };

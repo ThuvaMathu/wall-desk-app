@@ -1,16 +1,33 @@
 import React, { useState } from "react";
 import { Pressable } from "react-native";
 import { View, TouchableOpacity, Modal, Text } from "react-native";
-import WheelColorPicker from "react-native-wheel-color-picker";
 import { theme } from "../../services/global-theme";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { getRandomHexColor } from "./gen-random-collection";
+import ColorPicker, {
+  Panel1,
+  Panel2,
+  Panel3,
+  Panel4,
+  Panel5,
+  Swatches,
+  Preview,
+  OpacitySlider,
+  HueSlider,
+  BrightnessSlider,
+  SaturationSlider,
+} from "reanimated-color-picker";
 interface ColorPickerProps {
   onSelectColor?: (color: string) => void;
+  rectangle?: boolean;
 }
 
-const ColorPickerModel: React.FC<ColorPickerProps> = ({ onSelectColor }) => {
+const ColorPickerModel: React.FC<ColorPickerProps> = ({
+  onSelectColor,
+  rectangle,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [CurrentColor, setCurrentColor] = useState("blue");
+  const [CurrentColor, setCurrentColor] = useState(getRandomHexColor());
 
   const openColorPicker = () => {
     setModalVisible(true);
@@ -21,7 +38,6 @@ const ColorPickerModel: React.FC<ColorPickerProps> = ({ onSelectColor }) => {
   };
 
   const handleColorChange = (color: string) => {
-    console.log(color);
     setCurrentColor(color);
     if (onSelectColor) {
       onSelectColor(color);
@@ -33,44 +49,70 @@ const ColorPickerModel: React.FC<ColorPickerProps> = ({ onSelectColor }) => {
       <TouchableOpacity
         onPress={openColorPicker}
         style={{
-          width: 50,
-          height: 50,
-          borderRadius: 25,
+          width: 70,
+          height: 70,
+          borderRadius: rectangle ? 5 : 35,
           backgroundColor: CurrentColor,
+          borderColor: theme.secondary,
+          borderWidth: 1,
         }}
-      >
-        {/* <Text style={{ textAlign: "center", marginTop: 16 }}>Open</Text> */}
-      </TouchableOpacity>
+      ></TouchableOpacity>
 
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
-        <Pressable
+        <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          onPress={() => setModalVisible(!modalVisible)}
         >
           <View
             style={{
               height: 400,
               width: 300,
               backgroundColor: "white",
-              borderWidth: 2,
+              position: "relative",
+              borderWidth: 3,
               borderColor: theme.secondary,
               padding: 10,
               borderRadius: 15,
             }}
           >
             <Text style={{ textAlign: "center", marginBottom: 16 }}>
-              Select a color:
+              Select your color
             </Text>
-            <WheelColorPicker
-              onColorChange={handleColorChange}
-              discrete={true}
-              //style={{ flex: 1 }}
-            />
-            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={{ textAlign: "center", marginTop: 16 }}>Close</Text>
-            </TouchableOpacity>
+
+            <ColorPicker
+              style={{
+                width: "100%",
+
+                padding: 10,
+                gap: 30,
+              }}
+              value={CurrentColor}
+              onComplete={(color) => handleColorChange(color.rgba)}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Panel3 style={{ width: "90%" }} />
+              </View>
+              {/* <OpacitySlider /> */}
+              <BrightnessSlider />
+              {/* <SaturationSlider /> */}
+            </ColorPicker>
+            <View style={{ position: "absolute", top: 1, right: 4 }}>
+              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                <Ionicons
+                  name={"ios-close"}
+                  size={30}
+                  color={theme.secondary}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-        </Pressable>
+        </View>
+        {/* </Pressable> */}
       </Modal>
     </View>
   );
